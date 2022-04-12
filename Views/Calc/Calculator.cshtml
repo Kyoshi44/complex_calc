@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Complex Calc";
+}
+<h1>@ViewData["Title"] </h1>
+
+<p>This is the place where you can make operations with complex numbers</p>
+
+<div class="text-center">
+    <form asp-controller="Calc" method="post">
+        <div>
+            <input
+                value="@ViewBag.number1"
+                   name="Number1"
+                   placeholder="Input Imaginary element"></>
+            
+            <input
+                    value="@ViewBag.number2"
+                   name="Number2"
+                   placeholder="Input Real element"></><br/>
+
+            <button id="AddButton" type="submit" name="add" asp-action="Add">+</button>
+            <button id="SubtractButton" type="submit" name="substract"  asp-action="Substract">-</button><br/>
+            <button id="MultiplyButton"type="submit" name="multiply" asp-action="Multiply">*</button>
+            <button id="DivideButton" type="submit" name="divide" asp-action="Divide">/</button><br/>
+            <button id="ConvertButton" type="submit" name="conversion" asp-action="Conversion">Conversion</button><br/>
+            <output name="Result">@ViewBag.output</output><br/>
+        </div>
+    </form>
+</div>
