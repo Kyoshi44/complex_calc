@@ -11,18 +11,18 @@
             <input
                 value="@ViewBag.number1"
                    name="Number1"
-                   placeholder="Input number 1"></>
+                   placeholder="Input Imaginary element"></>
             
             <input
                     value="@ViewBag.number2"
                    name="Number2"
-                   placeholder="Input number 2"></><br/>
+                   placeholder="Input Real element"></><br/>
 
             <button id="AddButton" type="submit" name="add" asp-action="Add">+</button>
             <button id="SubtractButton" type="submit" name="substract"  asp-action="Substract">-</button><br/>
             <button id="MultiplyButton"type="submit" name="multiply" asp-action="Multiply">*</button>
             <button id="DivideButton" type="submit" name="divide" asp-action="Divide">/</button><br/>
-            <button id="ConvertButton" type="submit" name="conversion" asp-action="ExpConversion">ExpConversion</button><br/>
+            <button id="ConvertButton" type="submit" name="conversion" asp-action="Conversion">Conversion</button><br/>
             <output name="Result">@ViewBag.output</output><br/>
         </div>
     </form>

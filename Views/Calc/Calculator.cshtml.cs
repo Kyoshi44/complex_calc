@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Complex_Calculator.Views.Calc
@@ -12,25 +10,17 @@ namespace Complex_Calculator.Views.Calc
             return View();
         }
 
-        private ComplexNumber CreateComplexNumber(String data)
+        private ComplexNumber GetComplexNumber(String data)
         {
-            Regex real = new Regex(@"[+-]?\d[^ij]");
-            Regex imaginary = new Regex(@"[+-]?\d[ij]");
-            
-            string realPart = real.Match(data).ToString();
-            string imaginaryPart = imaginary.Match(data).ToString();
-
-            imaginaryPart = imaginaryPart.TrimEnd('i', 'j');
-            realPart = realPart.TrimEnd('+', '-');
-
-            return new ComplexNumber(Convert.ToDouble(realPart), Convert.ToDouble(imaginaryPart));
+            String[] input = data.Replace("i", "").Split("+");
+            return new ComplexNumber(Convert.ToDouble(input[0]), Convert.ToDouble(input[1]));
 
         }
         public ComplexNumber[] GetComplexNumbers()
         {
             string number1 = HttpContext.Request.Form["Number1"];
             string number2 = HttpContext.Request.Form["Number2"];
-            return new []{CreateComplexNumber(number1), CreateComplexNumber(number2)};
+            return new []{GetComplexNumber(number1), GetComplexNumber(number2)};
         }
 
         public IActionResult Add()
@@ -68,17 +58,17 @@ namespace Complex_Calculator.Views.Calc
         }
 
 
-        public IActionResult ExpConversion()
+        public IActionResult Conversion()
         {
             string number1 = HttpContext.Request.Form["Number1"];
             if (number1.Length != 0)
             {
-                ViewBag.output = CreateComplexNumber(number1).Conversion();
+                ViewBag.output = GetComplexNumber(number1).Conversion();
             }
             string number2 = HttpContext.Request.Form["Number2"];
             if (number2.Length != 0)
             {
-                ViewBag.output = CreateComplexNumber(number2).Conversion();
+                ViewBag.output = GetComplexNumber(number2).Conversion();
             }
             return View("Calculator");
         }
