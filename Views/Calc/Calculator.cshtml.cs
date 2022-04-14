@@ -11,7 +11,7 @@ namespace Complex_Calculator.Views.Calc
             return View();
         }
 
-        private ComplexNumber GetComplexNumber(String data)
+        private ComplexNumber CreateComplexNumber(String data)
         {
             Regex realRegex = new Regex(@"[+-]?\d[^ij]");
             Regex imaginaryRegex= new Regex(@"[+-] ?\d[ij]");
@@ -29,7 +29,7 @@ namespace Complex_Calculator.Views.Calc
         {
             string number1 = HttpContext.Request.Form["Number1"];
             string number2 = HttpContext.Request.Form["Number2"];
-            return new []{GetComplexNumber(number1), GetComplexNumber(number2)};
+            return new []{CreateComplexNumber(number1), CreateComplexNumber(number2)};
         }
 
         public IActionResult Add()
@@ -67,17 +67,17 @@ namespace Complex_Calculator.Views.Calc
         }
 
 
-        public IActionResult Conversion()
+        public IActionResult ExpConversion()
         {
             string number1 = HttpContext.Request.Form["Number1"];
             if (number1.Length != 0)
             {
-                ViewBag.output = GetComplexNumber(number1).Conversion();
+                ViewBag.output = CreateComplexNumber(number1).Conversion();
             }
             string number2 = HttpContext.Request.Form["Number2"];
             if (number2.Length != 0)
             {
-                ViewBag.output = GetComplexNumber(number2).Conversion();
+                ViewBag.output = CreateComplexNumber(number2).Conversion();
             }
             return View("Calculator");
         }
