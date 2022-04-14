@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Complex_Calculator.Views.Calc
@@ -12,8 +13,16 @@ namespace Complex_Calculator.Views.Calc
 
         private ComplexNumber GetComplexNumber(String data)
         {
-            String[] input = data.Replace("i", "").Split("+");
-            return new ComplexNumber(Convert.ToDouble(input[0]), Convert.ToDouble(input[1]));
+            Regex realRegex = new Regex(@"[+-]?\d[^ij]");
+            Regex imaginaryRegex= new Regex(@"[+-] ?\d[ij]");
+
+            string real = realRegex.Match(data).ToString();
+            string imaginary = imaginaryRegex.Match(data).ToString();
+
+            real = real.TrimEnd('+', '-');
+            imaginary = imaginary.TrimEnd('i', 'j');
+
+            return new ComplexNumber(Convert.ToDouble(real), Convert.ToDouble(imaginary));
 
         }
         public ComplexNumber[] GetComplexNumbers()
