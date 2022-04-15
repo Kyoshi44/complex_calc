@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq.Expressions;
+using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,20 +12,18 @@ namespace Complex_Calculator.Views.Calc
         {
             return View();
         }
-
         private ComplexNumber CreateComplexNumber(String data)
         {
-            Regex realRegex = new Regex(@"[+-]?\d[^ij]");
-            Regex imaginaryRegex= new Regex(@"[+-] ?\d[ij]");
+                Regex realRegex = new Regex(@"[+-]?\d[^ij]");
+                Regex imaginaryRegex = new Regex(@"[+-] ?\d[ij]");
 
-            string real = realRegex.Match(data).ToString();
-            string imaginary = imaginaryRegex.Match(data).ToString();
+                string real = realRegex.Match(data).ToString();
+                string imaginary = imaginaryRegex.Match(data).ToString();
 
-            real = real.TrimEnd('+', '-');
-            imaginary = imaginary.TrimEnd('i', 'j');
+                real = real.TrimEnd('+', '-');
+                imaginary = imaginary.TrimEnd('i', 'j');
 
-            return new ComplexNumber(Convert.ToDouble(real), Convert.ToDouble(imaginary));
-
+                return new ComplexNumber(Convert.ToDouble(real), Convert.ToDouble(imaginary));
         }
         public ComplexNumber[] GetComplexNumbers()
         {
@@ -64,21 +64,23 @@ namespace Complex_Calculator.Views.Calc
             ViewBag.number1 = complexNumbers[0].ToString();
             ViewBag.number2 = complexNumbers[1].ToString();
             return View("Calculator");
+            
         }
-
-
         public IActionResult ExpConversion()
         {
+            StringBuilder sb = new StringBuilder();
             string number1 = HttpContext.Request.Form["Number1"];
             if (number1.Length != 0)
             {
-                ViewBag.output = CreateComplexNumber(number1).Conversion();
+                sb.AppendLine(CreateComplexNumber(number1).Conversion());
             }
             string number2 = HttpContext.Request.Form["Number2"];
             if (number2.Length != 0)
             {
-                ViewBag.output = CreateComplexNumber(number2).Conversion();
+                sb.AppendLine(CreateComplexNumber(number2).Conversion());
             }
+            ViewBag.output = sb;
+            
             return View("Calculator");
         }
     }

@@ -46,9 +46,9 @@ public class ComplexNumber
 
     public string Conversion()
     {
-        double r = Math.Abs(Math.Sqrt(Math.Pow(Real, 2) + Math.Pow(Imaginary, 2)));
+        double r = Math.Round(Math.Abs(Math.Sqrt(Math.Pow(Real, 2) + Math.Pow(Imaginary, 2))),3);
 
-        double fi = Math.Atan2(Imaginary, Real) / Math.PI;
+        double fi = Math.Round(Math.Atan2(Imaginary, Real) / Math.PI ,3);
 
         return string.Format("{0} * e^({1}* \u03C0 * i)", r, fi); ;
     }
