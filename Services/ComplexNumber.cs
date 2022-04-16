@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class ComplexNumber
+public class ComplexNumber : Exception
 {
     private double Real;
     private double Imaginary;
@@ -13,13 +13,14 @@ public class ComplexNumber
 
     }
 
-    public static ComplexNumber operator +(ComplexNumber a, ComplexNumber b)
+    public static ComplexNumber operator +(ComplexNumber a, ComplexNumber b) 
     {
         return new ComplexNumber(a.Real + b.Real, a.Imaginary + b.Imaginary);
+
     }
     public static ComplexNumber operator -(ComplexNumber a, ComplexNumber b)
     {
-        return new ComplexNumber(a.Real - b.Real, a.Imaginary - b.Imaginary);
+       return new ComplexNumber(a.Real - b.Real, a.Imaginary - b.Imaginary);
     }
     public static ComplexNumber operator *(ComplexNumber a, ComplexNumber b)
     {
@@ -29,18 +30,21 @@ public class ComplexNumber
     {
         return new ComplexNumber(((a.Real * b.Real + a.Imaginary * b.Imaginary) + (a.Imaginary * b.Real - a.Real * b.Imaginary)) / Math.Pow(b.Real, 2) + Math.Pow(b.Imaginary, 2));
     }
-    public static bool operator ==(ComplexNumber a, ComplexNumber b)
-    {
-        return (a.Real == b.Real) && (a.Imaginary == b.Imaginary);
-    }
-    public static bool operator !=(ComplexNumber a, ComplexNumber b)
-    {
-        return !(a == b);
-    }
-    public static ComplexNumber operator -(ComplexNumber a)
-    {
-        return new ComplexNumber(-a.Real, -a.Imaginary);
-    }
+    // public static bool operator ==(ComplexNumber a, ComplexNumber b)
+    // {
+    //     if (a is null || b is null) return false;
+    //     return (a.Real.Equals(b.Real)) && (a.Imaginary.Equals(b.Imaginary));
+    // }
+    // public static bool operator !=(ComplexNumber a, ComplexNumber b)
+    // {
+    //     if (a is null || b is null) return false;
+    //     return !(a == b);
+    // }
+    // public static ComplexNumber operator -(ComplexNumber a)
+    // {
+    //     if (a is null) return null;
+    //     return new ComplexNumber(-a.Real, -a.Imaginary);
+    // }
 
 
 
@@ -52,11 +56,11 @@ public class ComplexNumber
 
         return string.Format("{0} * e^({1}* \u03C0 * i)", r, fi); ;
     }
-
-    public double Argument()
-    {
-        return Math.Atan2(Imaginary, Real);
-    }
+    //
+    // public double Argument()
+    // {
+    //     return Math.Atan2(Imaginary, Real);
+    // }
 
     public override string ToString()
     {
