@@ -14,8 +14,8 @@ namespace Complex_Calculator.Views.Calc
         }
         private ComplexNumber CreateComplexNumber(String data)
         {
-                Regex realRegex = new Regex(@"[+-]?\d[^ij]");
-                Regex imaginaryRegex = new Regex(@"[+-] ?\d[ij]");
+            Regex realRegex = new Regex(@"[+-]?\d+[^ij]");
+            Regex imaginaryRegex= new Regex(@"[+-]?\d+[ij]");
 
                 string real = realRegex.Match(data).ToString();
                 string imaginary = imaginaryRegex.Match(data).ToString();
@@ -29,6 +29,7 @@ namespace Complex_Calculator.Views.Calc
         {
             string number1 = HttpContext.Request.Form["Number1"];
             string number2 = HttpContext.Request.Form["Number2"];
+   
             return new []{CreateComplexNumber(number1), CreateComplexNumber(number2)};
         }
 
