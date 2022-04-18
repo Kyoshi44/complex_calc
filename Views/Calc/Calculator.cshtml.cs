@@ -15,27 +15,41 @@ namespace Complex_Calculator.Views.Calc
         }
         private ComplexNumber CreateComplexNumber(String data)
         {
-            if ((new Regex(@"[^\dij+\-]").IsMatch(data)) || data.Equals("")) return null;
-            Regex realRegex = new Regex(@"[+-]?\d+[^ij]");
-            Regex imaginaryRegex= new Regex(@"[+-]?\d+[ij]");
+            if (new Regex(@"[^\dij+\-]").IsMatch(data) || data.Equals(""))
+            {
+                
+                //return new ComplexNumber(0,0);
+                return null;
+            }
 
-            string real = realRegex.Match(data).ToString();
-            string imaginary = imaginaryRegex.Match(data).ToString();
+            Regex complex = new Regex(@"(?<real>(?:[+-])?(?:\d+)(?:[,.](?:\d+))?(?![ij]))?(?<imaginary>(?:[+-])?(?:\d+)(?:[,.](?:\d+))?[ij])?");
+            
+            string real = complex.Match(data).Groups["real"].ToString();
+            if (real == "")
+            {
+                real = "0";
+            }
 
+            string img = complex.Match(data).Groups["imaginary"].ToString();
+            if (img == "")
+            {
+                img = "0";
+            }
             real = real.TrimEnd('+', '-');
-            imaginary = imaginary.TrimEnd('i', 'j');
+            img = img.TrimEnd('i', 'j');
 
-            return new ComplexNumber(Convert.ToDouble(real), Convert.ToDouble(imaginary));
+            return new ComplexNumber(Convert.ToDouble(real), Convert.ToDouble(img));
         }
         public ComplexNumber[] GetComplexNumbers()
         {
+            Regex complex = new Regex(@"[^\dij+\-]");
             string number1 = HttpContext.Request.Form["Number1"];
             string number2 = HttpContext.Request.Form["Number2"];
-
+            
             ComplexNumber num1 = CreateComplexNumber(number1);
             ComplexNumber num2 = CreateComplexNumber(number2);
-            
-            if (num1 is null || num2 is null) 
+
+            if (num1 == null || num2 is null) 
             {
                 return null;
             }
@@ -46,16 +60,27 @@ namespace Complex_Calculator.Views.Calc
         public IActionResult Add()
         {
             ComplexNumber[] complexNumbers = GetComplexNumbers();
-
             try
             {
+                if (complexNumbers == null)
+                {
+                    ViewBag.output = "You havent inputed any number";
+                    return View("Calculator");
+                }
+
+                /*if(complexNumbers[0] != null || complexNumbers[1]==null)
+                {
+                    ViewBag.output = "You have inputed only one number"; 
+                    return View("Calculator");
+                }*/
+
                 ViewBag.output = (complexNumbers[0] + complexNumbers[1]).ToString();
                 ViewBag.number1 = complexNumbers[0].ToString();
                 ViewBag.number2 = complexNumbers[1].ToString();
             }
             catch (NullReferenceException e)
             {
-                ViewBag.output = "Please input number";
+                ViewBag.output = "Please input number"+ e.Message;
             }
 
             return View("Calculator");
@@ -111,27 +136,31 @@ namespace Complex_Calculator.Views.Calc
             return View("Calculator");
             
         }
+
         public IActionResult ExpConversion()
         {
             StringBuilder sb = new StringBuilder();
+            Regex complex = new Regex(@"[^\dij+\-]");
             string number1 = HttpContext.Request.Form["Number1"];
-            if ((new Regex(@"[^\dij+\-]/^$/").IsMatch(number1)) || number1.Equals(""))
+            string number2 = HttpContext.Request.Form["Number2"];
+
+            if (complex.IsMatch(number1) || complex.IsMatch(number2) || number1.Equals("") && number2.Equals(""))
             {
                 ViewBag.output = "Please input number";
                 return View("Calculator");
             }
+
             if (number1.Length != 0)
             {
                 sb.AppendLine(CreateComplexNumber(number1).Conversion());
+                ViewBag.output = sb;
             }
-            string number2 = HttpContext.Request.Form["Number2"];
-            if ((new Regex(@"[^\dij+\-]/^$/").IsMatch(number2)) || number2.Equals("")) return View("Calculator");
+
             if (number2.Length != 0)
             {
                 sb.AppendLine(CreateComplexNumber(number2).Conversion());
+                ViewBag.output = sb;
             }
-            ViewBag.output = sb;
-            
             return View("Calculator");
         }
     }
