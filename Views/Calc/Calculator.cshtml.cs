@@ -18,8 +18,7 @@ namespace Complex_Calculator.Views.Calc
             if (new Regex(@"[^\dij+\-]").IsMatch(data) || data.Equals(""))
             {
                 
-                //return new ComplexNumber(0,0);
-                return null;
+                return new ComplexNumber(0,0);
             }
 
             Regex complex = new Regex(@"(?<real>(?:[+-])?(?:\d+)(?:[,.](?:\d+))?(?![ij]))?(?<imaginary>(?:[+-])?(?:\d+)(?:[,.](?:\d+))?[ij])?");
@@ -67,13 +66,6 @@ namespace Complex_Calculator.Views.Calc
                     ViewBag.output = "You havent inputed any number";
                     return View("Calculator");
                 }
-
-                /*if(complexNumbers[0] != null || complexNumbers[1]==null)
-                {
-                    ViewBag.output = "You have inputed only one number"; 
-                    return View("Calculator");
-                }*/
-
                 ViewBag.output = (complexNumbers[0] + complexNumbers[1]).ToString();
                 ViewBag.number1 = complexNumbers[0].ToString();
                 ViewBag.number2 = complexNumbers[1].ToString();
