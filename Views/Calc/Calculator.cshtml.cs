@@ -48,11 +48,6 @@ namespace Complex_Calculator.Views.Calc
             ComplexNumber num1 = CreateComplexNumber(number1);
             ComplexNumber num2 = CreateComplexNumber(number2);
 
-            if (num1 == null || num2 is null) 
-            {
-                return null;
-            }
-
             return new[] {num1, num2};
         }
 
@@ -61,11 +56,6 @@ namespace Complex_Calculator.Views.Calc
             ComplexNumber[] complexNumbers = GetComplexNumbers();
             try
             {
-                if (complexNumbers == null)
-                {
-                    ViewBag.output = "You havent inputed any number";
-                    return View("Calculator");
-                }
                 ViewBag.output = (complexNumbers[0] + complexNumbers[1]).ToString();
                 ViewBag.number1 = complexNumbers[0].ToString();
                 ViewBag.number2 = complexNumbers[1].ToString();
@@ -122,7 +112,7 @@ namespace Complex_Calculator.Views.Calc
             }
             catch (Exception e)
             {
-                ViewBag.output = "Please input number";
+                ViewBag.output = "" + e.Message;
             }
 
             return View("Calculator");

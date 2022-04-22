@@ -28,25 +28,9 @@ public class ComplexNumber : Exception
     }
     public static ComplexNumber operator /(ComplexNumber a, ComplexNumber b)
     {
+        if (b.Real == 0 || b.Imaginary == 0) throw new Exception("You can't devide by zero");
         return new ComplexNumber(((a.Real * b.Real + a.Imaginary * b.Imaginary) + (a.Imaginary * b.Real - a.Real * b.Imaginary)) / Math.Pow(b.Real, 2) + Math.Pow(b.Imaginary, 2));
     }
-    // public static bool operator ==(ComplexNumber a, ComplexNumber b)
-    // {
-    //     if (a is null || b is null) return false;
-    //     return (a.Real.Equals(b.Real)) && (a.Imaginary.Equals(b.Imaginary));
-    // }
-    // public static bool operator !=(ComplexNumber a, ComplexNumber b)
-    // {
-    //     if (a is null || b is null) return false;
-    //     return !(a == b);
-    // }
-    // public static ComplexNumber operator -(ComplexNumber a)
-    // {
-    //     if (a is null) return null;
-    //     return new ComplexNumber(-a.Real, -a.Imaginary);
-    // }
-
-
 
     public string Conversion()
     {
@@ -56,12 +40,7 @@ public class ComplexNumber : Exception
 
         return string.Format("{0} * e^({1}* \u03C0 * i)", r, fi); ;
     }
-    //
-    // public double Argument()
-    // {
-    //     return Math.Atan2(Imaginary, Real);
-    // }
-
+    
     public override string ToString()
     {
         if (Imaginary >= 0)
